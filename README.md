@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="repository-banner.png" alt="DeCodeX : Sanger Banner" width="100%">
+  <img src="assets/repo-banner.png" alt="DeCodeX : Sanger Banner" width="100%">
 </p>
 
 # 🧬 DeCodeX : Sanger
