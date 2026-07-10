@@ -795,22 +795,30 @@
       const grow = clamp((anim*N - i),0,1);
       if(grow<=0) continue;
       const len=(f.len/N)*barMax*grow;
-      const rel = maxCount>0 ? f.count/maxCount : 0;   // abundance of this length
-      const alpha = 0.30 + 0.70*rel;                    // fewer strands -> fainter
+      const empty = f.count<=0;                         // no strand terminated at this length
+      const rel = maxCount>0 ? f.count/maxCount : 0;     // abundance of this length
+      const alpha = empty ? 0.12 : (0.30 + 0.70*rel);    // zero-count rows fade almost away
       // bar
       ctx.globalAlpha=alpha;
       ctx.strokeStyle='#2E5F5A';
       ctx.lineWidth=Math.min(4,rowH*0.5);
       ctx.beginPath();
       ctx.moveTo(pad,y); ctx.lineTo(pad+len,y); ctx.stroke();
-      // terminator dot
+      // terminator dot (skip the glowing dot entirely when there's no fragment)
       if(grow>=1){
-        ctx.fillStyle=COL[f.base];
-        ctx.shadowColor=COL[f.base]; ctx.shadowBlur=8;
-        ctx.beginPath(); ctx.arc(pad+len,y,Math.min(5,rowH*0.42),0,Math.PI*2); ctx.fill();
-        ctx.shadowBlur=0;
+        if(!empty){
+          ctx.fillStyle=COL[f.base];
+          ctx.shadowColor=COL[f.base]; ctx.shadowBlur=8;
+          ctx.beginPath(); ctx.arc(pad+len,y,Math.min(5,rowH*0.42),0,Math.PI*2); ctx.fill();
+          ctx.shadowBlur=0;
+        } else {
+          // hollow ring instead of a filled glowing dot — visually reads as "missing"
+          ctx.strokeStyle='#3A4552';
+          ctx.lineWidth=1;
+          ctx.beginPath(); ctx.arc(pad+len,y,Math.min(4,rowH*0.32),0,Math.PI*2); ctx.stroke();
+        }
         // length label + copy count
-        ctx.globalAlpha=1;
+        ctx.globalAlpha = empty ? 0.55 : 1;
         ctx.fillStyle='#4C5866';
         ctx.fillText(f.len+' nt ×'+f.count, pad+len+10, y+3);
       }
