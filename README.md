@@ -4,25 +4,42 @@
 
 # 🧬 DeCodeX : Sanger
 
-**Interactive Molecular Biology Simulator**
+Interactive molecular biology simulator for DNA sequencing, genetic analysis, and electrophoresis.
 
 ---
 
-### Overview
-**DeCodeX : Sanger** is an open-source educational platform designed to simulate core molecular biology techniques. It provides an interactive environment for students and researchers to explore DNA structure, sequencing, and genetic analysis.
+## ✨ Features
 
-### Core Modules
-* **Sanger Sequencing**: Simulate the chain-termination reaction, gel electrophoresis, and laser-based capillary readout.
-* **Parent-Child DNA Detector**: Perform comparative sequence analysis for biological relationship testing.
-* **3D DNA Builder**: Visualize and construct B-form double helix models.
-* **Agarose Gel Electrophoresis**: Interactive modeling of DNA fragment migration based on molecular size.
-
-### Technical Parameters
-* **Educational Focus**: Molecular genetics, bioinformatics, and analytical biochemistry.
-* **Interface**: Browser-based, responsive design.
-* **License**: GPL-3.0
+* **Sanger Sequencing:** Visualize chain termination, capillary electrophoresis, and DNA readout.
+* **Parent–Child DNA Analysis:** Compare DNA profiles through interactive sequence matching.
+* **3D DNA Builder:** Explore and construct the B-form DNA double helix.
+* **Gel Electrophoresis:** Simulate DNA fragment separation based on molecular size.
 
 ---
 
-### Acknowledgements
-*Built with technical contributions from modern AI research tools, inspired by foundational principles in molecular biology and scientific visualization.*
+## 🚀 Built With & Hosted On
+
+* **Repository:** GitHub
+* **Hosting:** Vercel
+
+---
+
+## 🛠️ Credits & Acknowledgments
+
+* **Claude Sonnet:** Debugging, code generation & architecture.
+* **Replit:** Code improvisation & rapid prototyping.
+* **OpenAI:** Scientific debugging, testing & logic optimization.
+
+---
+
+## 👤 Author
+
+* **Draven Ashcroft**
+  * M.Sc. Ag. Entomology, ASRB NET
+  * DIPS Chain of Institutions
+
+---
+
+## 📜 License
+
+GPL-3.0
