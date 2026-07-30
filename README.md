@@ -12,7 +12,7 @@ Interactive molecular biology simulator for DNA sequencing, genetic analysis, an
 
 * **Sanger Sequencing:** Visualize chain termination, capillary electrophoresis, and DNA readout.
 * **Parent–Child DNA Analysis:** Compare DNA profiles through interactive sequence matching.
-* **3D DNA Builder:** Explore and construct the B-form DNA double helix.
+* **VNTR:** Add and visualize Variable tandem repeats.
 * **Gel Electrophoresis:** Simulate DNA fragment separation based on molecular size.
 
 ---
