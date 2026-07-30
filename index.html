@@ -68,6 +68,48 @@
   button.primary:hover:not(:disabled){background:var(--accent);color:#0A0E13;}
   button:disabled{opacity:.35;cursor:not-allowed;}
   button.ghost{background:transparent;}
+  button.icon{position:relative;width:46px;height:46px;padding:0;border-radius:50%;
+    font-size:19px;line-height:1;display:inline-flex;align-items:center;justify-content:center;}
+  button.icon:active:not(:disabled){transform:translateY(1px) scale(0.94);}
+  button.icon svg{width:20px;height:20px;display:block;}
+
+  /* icon-button tooltip: shows on hover/keyboard-focus (desktop) and long-press (touch).
+     Default centers over the button; .tip-edge-left/.tip-edge-right (set by JS for buttons
+     near the screen edge) shift it so the label stays on-screen instead of clipping. */
+  button.icon[title]{
+    --tip-left:50%; --tip-right:auto; --tip-tx:-50%;
+    --tip-arrow-left:50%; --tip-arrow-right:auto; --tip-arrow-tx:-50%;
+  }
+  button.icon[title].tip-edge-left{
+    --tip-left:0px; --tip-right:auto; --tip-tx:0%;
+    --tip-arrow-left:16px; --tip-arrow-right:auto; --tip-arrow-tx:-50%;
+  }
+  button.icon[title].tip-edge-right{
+    --tip-left:auto; --tip-right:0px; --tip-tx:0%;
+    --tip-arrow-left:auto; --tip-arrow-right:16px; --tip-arrow-tx:50%;
+  }
+  button.icon[title]::after{
+    content:attr(title);
+    position:absolute;bottom:calc(100% + 9px);
+    left:var(--tip-left);right:var(--tip-right);
+    transform:translateX(var(--tip-tx)) translateY(4px);
+    background:#0D1218;color:var(--text);border:1px solid var(--accent-dim);
+    font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.01em;
+    white-space:nowrap;padding:6px 10px;border-radius:6px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.45);
+    opacity:0;pointer-events:none;transition:opacity .14s ease, transform .14s ease;z-index:30;}
+  button.icon[title]::before{
+    content:'';position:absolute;bottom:calc(100% + 4px);
+    left:var(--tip-arrow-left);right:var(--tip-arrow-right);
+    transform:translateX(var(--tip-arrow-tx));
+    border:5px solid transparent;border-top-color:#0D1218;
+    opacity:0;pointer-events:none;transition:opacity .14s ease;z-index:30;}
+  button.icon[title]:hover::after, button.icon[title]:hover::before,
+  button.icon[title]:focus-visible::after, button.icon[title]:focus-visible::before,
+  button.icon[title].show-tip::after, button.icon[title].show-tip::before{
+    opacity:1;transform:translateX(var(--tip-tx)) translateY(0);}
+
+  .card button.icon{width:46px;}
 
   .slider-box{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px;
     background:var(--panel);border:1px solid var(--line);padding:12px 14px;}
@@ -141,16 +183,16 @@
   </div>
 
   <div class="controls" id="controls">
-    <button id="btnMol">⚛ Nucleotides</button>
-    <button id="btnVNTR">🧬 VNTR</button>
-    <button id="btnFamily">👪 Parent–child test</button>
-    <button id="btnStep">⊕ Step one strand</button>
-    <button id="btnRun" class="primary">▶ Run reaction (all strands)</button>
-    <button id="btnGel" disabled>Run gel →</button>
-    <button id="btnPower" style="display:none;">⚡ Switch on power</button>
-    <button id="btnRead" disabled>Read sequence →</button>
-    <button id="btnReset" class="ghost">↺ Reset</button>
-    <button id="btnNew" class="ghost">New template</button>
+    <button id="btnMol" class="icon" title="Nucleotides" aria-label="Nucleotides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="9.2" ry="3.7"/><ellipse cx="12" cy="12" rx="9.2" ry="3.7" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.2" ry="3.7" transform="rotate(120 12 12)"/></svg></button>
+    <button id="btnVNTR" class="icon" title="VNTR / DNA fingerprinting" aria-label="VNTR / DNA fingerprinting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2c-3 3 3 5 3 9s-6 6-3 9"/><path d="M15 2c3 3-3 5-3 9s6 6 3 9"/><line x1="9" y1="5.4" x2="15" y2="5.4"/><line x1="8.6" y1="11" x2="15.4" y2="11"/><line x1="9" y1="16.6" x2="15" y2="16.6"/></svg></button>
+    <button id="btnFamily" class="icon" title="Parent–child test" aria-label="Parent–child test"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="7.2" r="2.7"/><path d="M3.3 20c0-3.7 2.1-6.2 4.7-6.2s4.7 2.5 4.7 6.2"/><circle cx="17.3" cy="9.2" r="2.1"/><path d="M13.7 20c0-2.9 1.6-4.8 3.6-4.8s3.6 1.9 3.6 4.8"/></svg></button>
+    <button id="btnStep" class="icon" title="Step one strand" aria-label="Step one strand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6,4 14,12 6,20" fill="currentColor" stroke="none"/><line x1="18" y1="4" x2="18" y2="20"/></svg></button>
+    <button id="btnRun" class="primary icon" title="Run reaction (all strands)" aria-label="Run reaction (all strands)"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7,4 20,12 7,20" fill="currentColor"/></svg></button>
+    <button id="btnGel" class="icon" disabled title="Run gel" aria-label="Run gel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="4" x2="4" y2="20"/><line x1="9" y1="4" x2="9" y2="20"/><line x1="14" y1="4" x2="14" y2="20"/><line x1="19" y1="4" x2="19" y2="20"/><line x1="3" y1="8" x2="5" y2="8"/><line x1="8" y1="11" x2="10" y2="11"/><line x1="13" y1="6" x2="15" y2="6"/><line x1="18" y1="13" x2="20" y2="13"/></svg></button>
+    <button id="btnPower" class="icon" style="display:none;" title="Switch on power" aria-label="Switch on power"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13,2 4,14 11,14 9,22 20,9 12,9"/></svg></button>
+    <button id="btnRead" class="icon" disabled title="Read sequence" aria-label="Read sequence"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.1" y1="15.1" x2="21" y2="21"/></svg></button>
+    <button id="btnReset" class="ghost icon" title="Reset" aria-label="Reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 1 2.6 5.7"/><polyline points="3 16 4.5 12 8.5 13"/></svg></button>
+    <button id="btnNew" class="ghost icon" title="New template" aria-label="New template"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.2"/><circle cx="8.6" cy="8.6" r="1.25" fill="currentColor" stroke="none"/><circle cx="15.4" cy="8.6" r="1.25" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.25" fill="currentColor" stroke="none"/><circle cx="8.6" cy="15.4" r="1.25" fill="currentColor" stroke="none"/><circle cx="15.4" cy="15.4" r="1.25" fill="currentColor" stroke="none"/></svg></button>
   </div>
 
   <div class="controls" id="vntrControls" style="display:none;">
@@ -158,27 +200,27 @@
       <label>Repeat units <b id="vntrVal">4</b></label>
       <input type="range" id="vntrRep" min="2" max="8" value="4">
     </div>
-    <button id="btnVNTRread" class="primary">▶ Read through</button>
-    <button id="btnVNTRexit" class="ghost">← Back</button>
+    <button id="btnVNTRread" class="primary icon" title="Read through" aria-label="Read through"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7,4 20,12 7,20" fill="currentColor"/></svg></button>
+    <button id="btnVNTRexit" class="ghost icon" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
   </div>
 
   <div class="controls" id="familyControls" style="display:none;">
-    <button id="btnFamilyRun" class="primary">▶ Run gel</button>
-    <button id="btnFamilyNew">New family</button>
-    <button id="btnFamilyExit" class="ghost">← Back</button>
+    <button id="btnFamilyRun" class="primary icon" title="Run gel" aria-label="Run gel"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7,4 20,12 7,20" fill="currentColor"/></svg></button>
+    <button id="btnFamilyNew" class="icon" title="New family" aria-label="New family"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.2"/><circle cx="8.6" cy="8.6" r="1.25" fill="currentColor" stroke="none"/><circle cx="15.4" cy="8.6" r="1.25" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.25" fill="currentColor" stroke="none"/><circle cx="8.6" cy="15.4" r="1.25" fill="currentColor" stroke="none"/><circle cx="15.4" cy="15.4" r="1.25" fill="currentColor" stroke="none"/></svg></button>
+    <button id="btnFamilyExit" class="ghost icon" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
   </div>
 
   <div class="controls" id="molControls" style="display:none;">
-    <button id="btnMolExtend" class="primary">▶ Try to extend</button>
-    <button id="btnMolContinue">→ Next: build a strand</button>
-    <button id="btnMolExit" class="ghost">← Back</button>
+    <button id="btnMolExtend" class="primary icon" title="Try to extend" aria-label="Try to extend"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7,4 20,12 7,20" fill="currentColor"/></svg></button>
+    <button id="btnMolContinue" class="icon" title="Next: build a strand" aria-label="Next: build a strand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
+    <button id="btnMolExit" class="ghost icon" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
   </div>
 
   <div class="controls" id="stepControls" style="display:none;">
-    <button id="btnDNTP" class="primary">＋ Add dNTP · extend</button>
-    <button id="btnDDNTP">＋ Add ddNTP · terminate</button>
-    <button id="btnStepGo" style="display:none;">Now run all strands →</button>
-    <button id="btnStepExit" class="ghost">← Back</button>
+    <button id="btnDNTP" class="primary icon" title="Add dNTP · extend" aria-label="Add dNTP · extend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    <button id="btnDDNTP" class="icon" title="Add ddNTP · terminate" aria-label="Add ddNTP · terminate"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.2" fill="currentColor"/></svg></button>
+    <button id="btnStepGo" class="icon" style="display:none;" title="Now run all strands" aria-label="Now run all strands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 4 13 12 5 20"/><polyline points="12 4 20 12 12 20"/></svg></button>
+    <button id="btnStepExit" class="ghost icon" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
   </div>
 
   <div class="controls" id="ddntpRow" style="margin-top:10px;">
@@ -226,7 +268,7 @@
       <span><i style="background:var(--G)"></i>ddG</span>
       <span><i style="background:var(--C)"></i>ddC</span>
     </div>
-    <button id="fluorClose" class="primary">Got it</button>
+    <button id="fluorClose" class="primary icon" title="Got it" aria-label="Got it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 13 9 18 20 6"/></svg></button>
   </div>
 </div>
 
@@ -304,6 +346,7 @@
     clearTimeout(rt); rt=setTimeout(function(){
       resize();
       if(typeof H3D!=='undefined') H3D.resize();
+      positionTooltips();
     },150);
   });
 
@@ -450,9 +493,10 @@
   function vBlock(x,y,w,h,fill,stroke,label,lcol){
     ctx.fillStyle=fill; ctx.strokeStyle=stroke;
     roundRect(x,y,w,h,3); ctx.fill(); ctx.stroke();
-    if(label && w>26){
-      ctx.fillStyle=lcol||'#C7D0DA'; ctx.font='10px '+getMono(); ctx.textAlign='center';
-      ctx.fillText(label, x+w/2, y+h/2+3);
+    if(label && w>14){
+      const fs=Math.max(6, Math.min(10, w*0.30));   // shrink to fit narrow boxes instead of vanishing
+      ctx.fillStyle=lcol||'#C7D0DA'; ctx.font=fs.toFixed(1)+'px '+getMono(); ctx.textAlign='center';
+      ctx.fillText(label, x+w/2, y+h/2+fs*0.35);
     }
   }
 
@@ -473,7 +517,7 @@
     x+=flankW+gap;
     const repStart=x;
     for(let i=0;i<R;i++){
-      vBlock(x,barY,unitW,barH,(i%2?'#2E4A5F':'#274056'),'#4FD1C5', unitW>30?motif:'', '#9FE8E0');
+      vBlock(x,barY,unitW,barH,(i%2?'#2E4A5F':'#274056'),'#4FD1C5', motif, '#9FE8E0');
       x+=unitW+gap;
     }
     const repEnd=x-gap;
@@ -497,7 +541,9 @@
     const prog=vntrReading?clamp(anim,0,1):0;
     const bx0=repStart, bxEnd=repStart+(repEnd-repStart)*prog;
     const regionW=repEnd-repStart;
-    const ntSpace=Math.max(13, regionW/(R*motif.length));   // legible spacing (may sample, not 1:1)
+    const totalNt = R*motif.length;
+    const ntSpace = regionW/totalNt;              // exact spacing — always draws every repeat, matching the nt count shown below
+    const bscale = clamp(ntSpace/18, 0.42, 1);     // shrink the base glyph as repeats pack tighter, so it never overlaps
     if(bxEnd>bx0+1){
       // backbone thread
       ctx.strokeStyle='#4FD1C5'; ctx.lineWidth=2;
@@ -513,22 +559,22 @@
         const purine=(base==='A'||base==='G');
         // phosphate (circle) on backbone
         ctx.fillStyle='#4FD1C5';
-        ctx.beginPath(); ctx.arc(phosX,cy,2.4,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(phosX,cy,2.4*bscale,0,Math.PI*2); ctx.fill();
         // sugar (pentagon) on backbone
         ctx.fillStyle='#274056'; ctx.strokeStyle='#4FD1C5'; ctx.lineWidth=1;
         ctx.beginPath();
-        for(let v=0;v<5;v++){ const a=-Math.PI/2+v*2*Math.PI/5; const px=sugarX+Math.cos(a)*3.4, py2=cy+Math.sin(a)*3.4; v?ctx.lineTo(px,py2):ctx.moveTo(px,py2); }
+        for(let v=0;v<5;v++){ const a=-Math.PI/2+v*2*Math.PI/5; const px=sugarX+Math.cos(a)*3.4*bscale, py2=cy+Math.sin(a)*3.4*bscale; v?ctx.lineTo(px,py2):ctx.moveTo(px,py2); }
         ctx.closePath(); ctx.fill(); ctx.stroke();
         // base stem hanging down
-        ctx.strokeStyle=col; ctx.beginPath(); ctx.moveTo(sugarX,cy+4); ctx.lineTo(sugarX,cy+11); ctx.stroke();
+        ctx.strokeStyle=col; ctx.beginPath(); ctx.moveTo(sugarX,cy+4*bscale); ctx.lineTo(sugarX,cy+11*bscale); ctx.stroke();
         // base ring(s): purine = double, pyrimidine = single
-        const ringY=cy+15;
+        const ringY=cy+15*bscale;
         ctx.strokeStyle=col; ctx.fillStyle=col+'22'; ctx.lineWidth=1.4;
         if(purine){
-          ctx.beginPath(); ctx.arc(sugarX-2.4,ringY,3.0,0,Math.PI*2); ctx.fill(); ctx.stroke();
-          ctx.beginPath(); ctx.arc(sugarX+2.4,ringY,3.0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.arc(sugarX-2.4*bscale,ringY,3.0*bscale,0,Math.PI*2); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.arc(sugarX+2.4*bscale,ringY,3.0*bscale,0,Math.PI*2); ctx.fill(); ctx.stroke();
         } else {
-          ctx.beginPath(); ctx.arc(sugarX,ringY,3.6,0,Math.PI*2); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.arc(sugarX,ringY,3.6*bscale,0,Math.PI*2); ctx.fill(); ctx.stroke();
         }
         ctx.lineWidth=1;
       }
@@ -881,16 +927,25 @@
     ctx.fillStyle = gelPower ? '#FF6B6B' : '#4C5866';
     ctx.fillText('+', gelL-10, eBot+5);
 
-    // energised field: faint downward arrows drifting toward the + electrode
+    // energised field: single-strand DNA backbones (phosphate-sugar zig-zag) drifting toward the + electrode.
+    // Deliberately single-strand, not a double helix — by gel stage the reaction is denatured, so what's
+    // actually migrating is ssDNA, matching the backbone motif already used in the VNTR read-through view.
     if(gelPower){
-      const off=(performance.now()/26)% 22;
-      ctx.strokeStyle='rgba(255,107,107,0.22)';
+      const off=(performance.now()/26)% 24;
+      ctx.strokeStyle='rgba(255,107,107,0.32)';
+      ctx.fillStyle='rgba(255,107,107,0.48)';
+      ctx.lineWidth=1.2;
       for(let fx=gelL+laneW*0.5; fx<gelR; fx+=laneW){
-        for(let fy=topY+off; fy<botY-6; fy+=22){
-          ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(fx,fy+8); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(fx-2.5,fy+4.5); ctx.lineTo(fx,fy+8); ctx.lineTo(fx+2.5,fy+4.5); ctx.stroke();
+        for(let fy=topY+off; fy<botY-12; fy+=24){
+          ctx.beginPath();
+          ctx.moveTo(fx-3, fy); ctx.lineTo(fx+3, fy+5); ctx.lineTo(fx-3, fy+10);
+          ctx.stroke();
+          ctx.beginPath(); ctx.arc(fx-3, fy, 1.3, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(fx+3, fy+5, 1.3, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(fx-3, fy+10, 1.3, 0, Math.PI*2); ctx.fill();
         }
       }
+      ctx.lineWidth=1;
     }
 
     const travel=botY-topY-30;
@@ -1089,6 +1144,7 @@
       el.classList.toggle('active', i===hi);
       el.classList.toggle('done', i<hi);
     });
+    positionTooltips();
   }
   function status(html){ $('status').innerHTML=html; }
 
@@ -1121,6 +1177,7 @@
     $('btnRead').disabled=true;
     $('seqline').innerHTML='—';
     status('Step through <b>one strand</b> to see the mechanism, or run the <b>whole reaction</b> — millions of strands — for the population.');
+    positionTooltips();
     draw();
   }
 
@@ -1157,8 +1214,9 @@
     $('btnRead').disabled=true;
     const bp=$('btnPower');
     bp.style.display=''; bp.disabled=false;
-    bp.classList.remove('primary'); bp.textContent='⚡ Switch on power';
+    bp.classList.remove('primary'); bp.title='Switch on power'; bp.setAttribute('aria-label','Switch on power');
     status('DNA loaded in the wells. Switch on the power to start electrophoresis.');
+    positionTooltips();
     draw();
   });
 
@@ -1173,7 +1231,7 @@
       draw();
       if(gelProg>=1){
         gelRunning=false; gelPower=false;
-        const bp=$('btnPower'); bp.classList.remove('primary'); bp.textContent='⚡ Power'; bp.disabled=true;
+        const bp=$('btnPower'); bp.classList.remove('primary'); bp.title='Power (done)'; bp.setAttribute('aria-label','Power (done)'); bp.disabled=true;
         $('btnRead').disabled=false;
         status('Separation complete. Shorter fragments travelled farthest and are most abundant (each ddNTP consumes a strand, so fewer reach longer lengths). Ready to read.');
         return;
@@ -1188,11 +1246,11 @@
     if(state!==ST.GEL || gelProg>=1) return;
     gelPower=!gelPower;
     if(gelPower){
-      this.classList.add('primary'); this.textContent='⚡ Power ON — tap to pause';
+      this.classList.add('primary'); this.title='Power ON — tap to pause'; this.setAttribute('aria-label','Power ON — tap to pause');
       status('Field on — DNA is negatively charged, so it migrates toward the + electrode.');
       if(!gelRunning) gelRun();
     } else {
-      this.classList.remove('primary'); this.textContent='⚡ Switch on power';
+      this.classList.remove('primary'); this.title='Switch on power'; this.setAttribute('aria-label','Switch on power');
       status('Power off — no field, no movement. DNA is frozen in place.');
       draw();
     }
@@ -1256,6 +1314,7 @@
     stepSeqline();
     draw();                                 // renders 2D drawStep when in fallback
     status('Primer is bound (first '+PRIMER+' base pairs). Add a <b>dNTP</b> to extend the helix, or a <b>ddNTP</b> to terminate.');
+    positionTooltips();
   }
   function stepSeqline(){
     // show the growing strand in the readout, dye-capping the terminator
@@ -1291,6 +1350,7 @@
     $('seqline').innerHTML='—';
     status('Two nucleotides, one atom apart — the dNTP has a 3′-OH; the ddNTP has 3′-H.');
     draw();
+    positionTooltips();
   }
   $('btnMol').addEventListener('click', enterMol);
   $('btnMolExit').addEventListener('click', resetAll);
@@ -1324,6 +1384,7 @@
     $('seqline').innerHTML='—';
     status('A VNTR: a short motif repeated a variable number of times, flanked by unique sequence the primer can bind.');
     draw();
+    positionTooltips();
   }
   $('btnVNTR').addEventListener('click', enterVNTR);
   $('btnVNTRexit').addEventListener('click', resetAll);
@@ -1364,6 +1425,7 @@
     $('seqline').innerHTML='—';
     status('Mother, Father and three children loaded. Run the gel to separate everyone’s VNTR bands.');
     draw();
+    positionTooltips();
   }
   $('btnFamily').addEventListener('click', enterFamily);
   $('btnFamilyExit').addEventListener('click', resetAll);
@@ -1419,6 +1481,7 @@
     $('btnStepGo').style.display='';
     $('btnStepGo').classList.add('primary');
     $('btnDNTP').classList.remove('primary');
+    positionTooltips();
   }
 
   $('btnDNTP').addEventListener('click', function(){
@@ -1699,10 +1762,43 @@
   function getSans(){ return '-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif'; }
   function clamp(v,a,b){ return v<a?a:v>b?b:v; }
 
+  // ---------- icon-button tooltips: hover/focus handled by CSS; long-press for touch ----------
+  function positionTooltips(){
+    // buttons near the screen edge get their tooltip anchored to that edge instead of
+    // centered, so the label (e.g. "Power ON — tap to pause") never clips off-screen.
+    const margin = 90;   // ~half the width of our longest tooltip label
+    document.querySelectorAll('button.icon[title]').forEach(function(btn){
+      if(btn.offsetParent===null) return;   // hidden — nothing to position
+      const r = btn.getBoundingClientRect();
+      btn.classList.remove('tip-edge-left','tip-edge-right');
+      if(r.left < margin) btn.classList.add('tip-edge-left');
+      else if(window.innerWidth - r.right < margin) btn.classList.add('tip-edge-right');
+    });
+  }
+  (function(){
+    const LP_MS = 420;
+    document.querySelectorAll('button.icon[title]').forEach(function(btn){
+      let timer=null, longPressed=false;
+      function show(){ longPressed=true; positionTooltips(); btn.classList.add('show-tip'); }
+      function hide(){ btn.classList.remove('show-tip'); }
+      btn.addEventListener('touchstart', function(){
+        longPressed=false; clearTimeout(timer);
+        timer=setTimeout(show, LP_MS);
+      }, {passive:true});
+      btn.addEventListener('touchend', function(e){
+        clearTimeout(timer);
+        if(longPressed){ e.preventDefault(); hide(); }  // release after a long-press just dismisses the label, doesn't also fire the button
+      });
+      btn.addEventListener('touchmove', function(){ clearTimeout(timer); if(longPressed) hide(); longPressed=false; });
+      btn.addEventListener('touchcancel', function(){ clearTimeout(timer); hide(); longPressed=false; });
+    });
+  })();
+
   // ---------- boot ----------
   makeTemplate();
   resize();
   resetAll();
+  positionTooltips();
 })();
 </script>
 </body>
